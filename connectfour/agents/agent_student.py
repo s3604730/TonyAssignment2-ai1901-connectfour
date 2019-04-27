@@ -56,6 +56,7 @@ class StudentAgent(RandomAgent):
 
     def evaluateBoardState(self, board):
         heuristicValue = 0
+        heuristicHorizontalValue = 0
         listID = [1, 2]
 
         """
@@ -90,22 +91,22 @@ class StudentAgent(RandomAgent):
             winner()
         """
 
-        print(self.id)
+        # print(self.id)
         # get the id
         currentID = self.id
         # remove the other id
         listID.remove(currentID)
         # create enemyID
         enemyID = listID[0]
-        print("fdsafasdfsd" + str(enemyID))
+        # print("fdsafasdfsd" + str(enemyID))
 
         # Check all cells and add heuristic value based on how many in a row
         # or column
         for x in range(0, board.width):
             for y in range(0, board.height):
                 # print(str(x) + " Yes " + str(y))
-
-                # 2 combo row for us
+                print(str(x) + "and" + str(y))
+                # 2 combo vertical by row for us
                 if x < 5:
                     if (
                         board.get_cell_value(x, y)
@@ -114,7 +115,7 @@ class StudentAgent(RandomAgent):
                     ):
                         heuristicValue += 5
 
-                # 3 combo row for us
+                # 3 combo vertical by row for us
                 if x < 4:
                     if (
                         board.get_cell_value(x, y)
@@ -124,7 +125,7 @@ class StudentAgent(RandomAgent):
                     ):
                         heuristicValue += 50
 
-                # 4 combo row for us
+                # 4 combo vertical by row for us
                 if x < 3:
                     if (
                         board.get_cell_value(x, y)
@@ -133,11 +134,36 @@ class StudentAgent(RandomAgent):
                         == board.get_cell_value(x + 3, y)
                         == currentID
                     ):
-                        heuristicValue += 50000
-                print(heuristicValue)
+                        heuristicValue += 5000
+                
+                #print(board.height)
+                #print(y)
+                # 2 combo horizontal by column for us
+                
+                if  x<6 :
+                    print(str(x) + "and" + str(y))
+                    #print(board.get_cell_value(0,5))
+                    #2 combo horizontal by column
+                    if(board.get_cell_value(x,y)== board.get_cell_value(x,y+1) ==currentID):
+                        heuristicValue +=5
+                        heuristicHorizontalValue +=5
+                    #3 combo horizontal by column
+                    if(board.get_cell_value(x,y) == board.get_cell_value(x,y+1) == board.get_cell_value(x,y+2) == currentID):
+                        heuristicValue +=50
+                        heuristicHorizontalValue +=50
+                    # 4 combo horizontal by column
+                    if(board.get_cell_value(x,y) == board.get_cell_value(x,y+1) == board.get_cell_value(x,y+2) == board.get_cell_value(x,y+3) == currentID):
+                        heuristicValue+=5000
+                        heuristicHorizontalValue+=5000
 
+                    
 
                 
+                #print(board.get_cell_value(0,1))
+                #print(heuristicValue)
+
+                
+                    
 
         # print(board.get_cell_value(5,1))
         return 500
