@@ -55,6 +55,9 @@ class StudentAgent(RandomAgent):
         return bestVal
 
     def evaluateBoardState(self, board):
+        heuristicValue = 0
+        listID = [1, 2]
+
         """
         Your evaluation function should look at the current state and return a score for it. 
         As an example, the random agent provided works as follows:
@@ -87,4 +90,54 @@ class StudentAgent(RandomAgent):
             winner()
         """
 
-        return random.uniform(0, 1)
+        print(self.id)
+        # get the id
+        currentID = self.id
+        # remove the other id
+        listID.remove(currentID)
+        # create enemyID
+        enemyID = listID[0]
+        print("fdsafasdfsd" + str(enemyID))
+
+        # Check all cells and add heuristic value based on how many in a row
+        # or column
+        for x in range(0, board.width):
+            for y in range(0, board.height):
+                # print(str(x) + " Yes " + str(y))
+
+                # 2 combo row for us
+                if x < 5:
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x + 1, y)
+                        == currentID
+                    ):
+                        heuristicValue += 5
+
+                # 3 combo row for us
+                if x < 4:
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x + 1, y)
+                        == board.get_cell_value(x + 2, y)
+                        == currentID
+                    ):
+                        heuristicValue += 50
+
+                # 4 combo row for us
+                if x < 3:
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x + 1, y)
+                        == board.get_cell_value(x + 2, y)
+                        == board.get_cell_value(x + 3, y)
+                        == currentID
+                    ):
+                        heuristicValue += 50000
+                print(heuristicValue)
+
+
+                
+
+        # print(board.get_cell_value(5,1))
+        return 500
