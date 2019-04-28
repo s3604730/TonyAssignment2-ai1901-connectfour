@@ -57,6 +57,7 @@ class StudentAgent(RandomAgent):
     def evaluateBoardState(self, board):
         heuristicValue = 0
         heuristicHorizontalValue = 0
+        heuristicPositiveDiagonalValue = 0
         listID = [1, 2]
 
         """
@@ -113,7 +114,7 @@ class StudentAgent(RandomAgent):
                         == board.get_cell_value(x + 1, y)
                         == currentID
                     ):
-                        heuristicValue += 5
+                        heuristicValue += 10
 
                 # 3 combo vertical by row for us
                 if x < 4:
@@ -149,8 +150,8 @@ class StudentAgent(RandomAgent):
                         == board.get_cell_value(x, y + 1)
                         == currentID
                     ):
-                        heuristicValue += 5
-                        heuristicHorizontalValue+=5
+                        heuristicValue += 10
+                        heuristicHorizontalValue += 10
 
                     # 3 combo horizontal by column
                     if y < 5:
@@ -161,7 +162,7 @@ class StudentAgent(RandomAgent):
                             == currentID
                         ):
                             heuristicValue += 50
-                            heuristicHorizontalValue+=50
+                            heuristicHorizontalValue += 50
 
                     if y < 4:
 
@@ -174,7 +175,7 @@ class StudentAgent(RandomAgent):
                             == currentID
                         ):
                             heuristicValue += 5000
-                            heuristicHorizontalValue+=5000
+                            heuristicHorizontalValue += 5000
 
                 # 2 combo linear negative diagonal
                 if x < 5:
@@ -183,7 +184,7 @@ class StudentAgent(RandomAgent):
                         == board.get_cell_value(x + 1, y + 1)
                         == currentID
                     ):
-                        heuristicValue += 25
+                        heuristicValue += 10
 
                 # 3 combo linear negative diagonal
                 if x < 4:
@@ -194,8 +195,8 @@ class StudentAgent(RandomAgent):
                             == board.get_cell_value(x + 2, y + 2)
                             == currentID
                         ):
-                            heuristicValue += 75
-                #4 combo linear negative diagonal
+                            heuristicValue += 50
+                # 4 combo linear negative diagonal
                 if x < 3:
                     if y < 4:
                         if (
@@ -207,7 +208,42 @@ class StudentAgent(RandomAgent):
                         ):
                             heuristicValue += 5000
 
+                # 2 combo linear positive diagonal
+                if x <6:
+                    
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x - 1, y + 1)
+                        == currentID
+                    ):
+                        heuristicValue += 10
+                        heuristicPositiveDiagonalValue+=10
+
+                # 3 combo linear positive diagonal
+                if x < 6:
+                    if y < 5:
+                        if (
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x - 1, y + 1)
+                            == board.get_cell_value(x-2,y+2)
+                            == currentID
+                        ):
+                            heuristicValue += 50
+                            heuristicPositiveDiagonalValue+=50
+
+                    #4 combo linear positive diagonal
+                    if y < 4:
+                        if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 1, y + 1)
+                                == board.get_cell_value(x - 2, y + 2)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == currentID
+                            ):
+                                heuristicValue += 5000
+                                heuristicPositiveDiagonalValue+=5000
+
         # print(board.get_cell_value(5,1))
-        #print(heuristicHorizontalValue)
-        print(heuristicValue)
+        # print(heuristicHorizontalValue)
+        print(heuristicPositiveDiagonalValue)
         return heuristicValue
