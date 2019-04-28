@@ -209,15 +209,15 @@ class StudentAgent(RandomAgent):
                             heuristicValue += 5000
 
                 # 2 combo linear positive diagonal
-                if x <6:
-                    
+                if x < 6:
+
                     if (
                         board.get_cell_value(x, y)
                         == board.get_cell_value(x - 1, y + 1)
                         == currentID
                     ):
                         heuristicValue += 10
-                        heuristicPositiveDiagonalValue+=10
+                        heuristicPositiveDiagonalValue += 10
 
                 # 3 combo linear positive diagonal
                 if x < 6:
@@ -225,25 +225,156 @@ class StudentAgent(RandomAgent):
                         if (
                             board.get_cell_value(x, y)
                             == board.get_cell_value(x - 1, y + 1)
-                            == board.get_cell_value(x-2,y+2)
+                            == board.get_cell_value(x - 2, y + 2)
                             == currentID
                         ):
                             heuristicValue += 50
-                            heuristicPositiveDiagonalValue+=50
+                            heuristicPositiveDiagonalValue += 50
 
-                    #4 combo linear positive diagonal
+                    # 4 combo linear positive diagonal
                     if y < 4:
                         if (
-                                board.get_cell_value(x, y)
-                                == board.get_cell_value(x - 1, y + 1)
-                                == board.get_cell_value(x - 2, y + 2)
-                                == board.get_cell_value(x - 3, y + 3)
-                                == currentID
-                            ):
-                                heuristicValue += 5000
-                                heuristicPositiveDiagonalValue+=5000
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x - 1, y + 1)
+                            == board.get_cell_value(x - 2, y + 2)
+                            == board.get_cell_value(x - 3, y + 3)
+                            == currentID
+                        ):
+                            heuristicValue += 5000
+                            heuristicPositiveDiagonalValue += 5000
 
-        # print(board.get_cell_value(5,1))
-        # print(heuristicHorizontalValue)
-        print(heuristicPositiveDiagonalValue)
+                # print(board.get_cell_value(5,1))
+                # print(heuristicHorizontalValue)
+                # print(heuristicPositiveDiagonalValue)
+                # 
+                # Enemy ID HEURISTIC
+                if x < 5:
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x + 1, y)
+                        == enemyID
+                    ):
+                        heuristicValue -= 10
+
+                # 3 combo vertical by row for us
+                if x < 4:
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x + 1, y)
+                        == board.get_cell_value(x + 2, y)
+                        == enemyID
+                    ):
+                        heuristicValue -= 50
+
+                # 4 combo vertical by row for us
+                if x < 3:
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x + 1, y)
+                        == board.get_cell_value(x + 2, y)
+                        == board.get_cell_value(x + 3, y)
+                        == enemyID
+                    ):
+                        heuristicValue -= 5000
+
+                # print(board.height)
+                # print(y)
+                # 2 combo horizontal by column for us
+
+                if x < 6:
+                    # print(str(x) + "and" + str(y))
+                    # print(board.get_cell_value(0,5))
+                    # 2 combo horizontal by column
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x, y + 1)
+                        == enemyID
+                    ):
+                        heuristicValue -= 10
+
+                    # 3 combo horizontal by column
+                    if y < 5:
+                        if (
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x, y + 1)
+                            == board.get_cell_value(x, y + 2)
+                            == enemyID
+                        ):
+                            heuristicValue -= 50
+
+                    if y < 4:
+
+                        # 4 combo horizontal by column
+                        if (
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x, y + 1)
+                            == board.get_cell_value(x, y + 2)
+                            == board.get_cell_value(x, y + 3)
+                            == enemyID
+                        ):
+                            heuristicValue -= 5000
+
+                # 2 combo linear negative diagonal
+                if x < 5:
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x + 1, y + 1)
+                        == enemyID
+                    ):
+                        heuristicValue -= 10
+
+                # 3 combo linear negative diagonal
+                if x < 4:
+                    if y < 5:
+                        if (
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x + 1, y + 1)
+                            == board.get_cell_value(x + 2, y + 2)
+                            == enemyID
+                        ):
+                            heuristicValue -= 50
+                # 4 combo linear negative diagonal
+                if x < 3:
+                    if y < 4:
+                        if (
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x + 1, y + 1)
+                            == board.get_cell_value(x + 2, y + 2)
+                            == board.get_cell_value(x + 3, y + 3)
+                            == enemyID
+                        ):
+                            heuristicValue -= 5000
+
+                # 2 combo linear positive diagonal
+                if x < 6:
+
+                    if (
+                        board.get_cell_value(x, y)
+                        == board.get_cell_value(x - 1, y + 1)
+                        == enemyID
+                    ):
+                        heuristicValue -= 10
+
+                # 3 combo linear positive diagonal
+                if x < 6:
+                    if y < 5:
+                        if (
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x - 1, y + 1)
+                            == board.get_cell_value(x - 2, y + 2)
+                            == enemyID
+                        ):
+                            heuristicValue -= 50
+
+                    # 4 combo linear positive diagonal
+                    if y < 4:
+                        if (
+                            board.get_cell_value(x, y)
+                            == board.get_cell_value(x - 1, y + 1)
+                            == board.get_cell_value(x - 2, y + 2)
+                            == board.get_cell_value(x - 3, y + 3)
+                            == enemyID
+                        ):
+                            heuristicValue -= 5000
+                
         return heuristicValue
