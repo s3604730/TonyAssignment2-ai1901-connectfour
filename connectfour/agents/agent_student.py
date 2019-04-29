@@ -5,7 +5,7 @@ import random
 class StudentAgent(RandomAgent):
     def __init__(self, name):
         super().__init__(name)
-        self.MaxDepth = 1
+        self.MaxDepth = 2
 
     def get_move(self, board):
         """
@@ -49,8 +49,10 @@ class StudentAgent(RandomAgent):
 
         if depth % 2 == 1:
             bestVal = min(vals)
+            
         else:
             bestVal = max(vals)
+            
 
         return bestVal
 
@@ -246,7 +248,7 @@ class StudentAgent(RandomAgent):
                 # print(board.get_cell_value(5,1))
                 # print(heuristicHorizontalValue)
                 # print(heuristicPositiveDiagonalValue)
-                # 
+                #
                 # Enemy ID HEURISTIC
                 if x < 5:
                     if (
@@ -376,5 +378,15 @@ class StudentAgent(RandomAgent):
                             == enemyID
                         ):
                             heuristicValue -= 5000
-                
+        
         return heuristicValue
+
+    def alphaBeta(self, board, depth, a, b):
+
+        # terminal state
+        if depth == self.MaxDepth:
+            return self.evaluateBoardState(board)
+
+        valid_moves = board.valid_moves()
+        vals = []
+        moves = []
