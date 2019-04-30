@@ -419,7 +419,7 @@ class StudentAgent(RandomAgent):
                                     == board.get_cell_value(x, y + 1)
                                     and board.get_cell_value(x, y - 1) == 0
                                 ):
-                                    heuristicValue -=30
+                                    heuristicValue -=50
                                     
 
                                 # 3 combo horizontal by column and theres space on the right side
@@ -439,7 +439,7 @@ class StudentAgent(RandomAgent):
                                         == enemyID
                                         and board.get_cell_value(x, y - 1) == 0
                                     ):
-                                        heuristicValue -= 50
+                                        heuristicValue -= 800
                                     
                 except:
                     pass
