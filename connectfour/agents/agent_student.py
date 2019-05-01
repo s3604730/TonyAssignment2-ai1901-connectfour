@@ -138,29 +138,6 @@ class StudentAgent(RandomAgent):
                             ):
                                 heuristicValue += 5000
 
-                """
-                # 3 combo vertical by row for us
-                if x < 4:
-                    if (
-                        board.get_cell_value(x, y)
-                        == board.get_cell_value(x + 1, y)
-                        == board.get_cell_value(x + 2, y)
-                        == currentID
-                    ):
-                        heuristicValue += 50
-
-                # 4 combo vertical by row for us
-                if x < 3:
-                    if (
-                        board.get_cell_value(x, y)
-                        == board.get_cell_value(x + 1, y)
-                        == board.get_cell_value(x + 2, y)
-                        == board.get_cell_value(x + 3, y)
-                        == currentID
-                    ):
-                        heuristicValue += 5000
-                """
-
                 # 2 combo horizontal by column for us
 
                 if x < 6:
@@ -172,8 +149,8 @@ class StudentAgent(RandomAgent):
                         == board.get_cell_value(x, y + 1)
                         == currentID
                     ):
-                        heuristicValue += 10
-                        heuristicHorizontalValue += 10
+                        heuristicValue += 11
+                       
 
                     # 3 combo horizontal by column
                     if y < 5:
@@ -184,7 +161,7 @@ class StudentAgent(RandomAgent):
                             == currentID
                         ):
                             heuristicValue += 50
-                            heuristicHorizontalValue += 50
+                           
 
                         if y < 4:
 
@@ -197,7 +174,7 @@ class StudentAgent(RandomAgent):
                                 == currentID
                             ):
                                 heuristicValue += 5000
-                                heuristicHorizontalValue += 5000
+                               
 
                 # 2 combo linear negative diagonal
                 if x < 5:
@@ -265,9 +242,7 @@ class StudentAgent(RandomAgent):
                                     heuristicValue += 5000
                                     heuristicPositiveDiagonalValue += 5000
 
-                # print(board.get_cell_value(5,1))
-                # print(heuristicHorizontalValue)
-                # print(heuristicPositiveDiagonalValue)
+               
                 #
                 # Enemy ID HEURISTIC*******************************************
                 # 2 combo vertical by row for us
@@ -305,7 +280,7 @@ class StudentAgent(RandomAgent):
                 # 2 combo horizontal by column for us
 
                 if x < 6:
-                   
+
                     # 2 combo horizontal by column
                     if (
                         board.get_cell_value(x, y)
@@ -323,7 +298,6 @@ class StudentAgent(RandomAgent):
                             == enemyID
                         ):
                             heuristicValue -= 50
-                           
 
                         if y < 4:
 
@@ -400,30 +374,29 @@ class StudentAgent(RandomAgent):
                             ):
                                 heuristicValue -= 5000
                 
-                #if current player is the second player
+                # if current player is the second player
                 try:
                     if currentID == 2:
                         if x < 6:
                             if y < 5:
-                                # 2 combo horizontal by column for the enemy and there 
+                                # 2 combo horizontal by column for the enemy and there
                                 # is an open space on the right
                                 if (
                                     board.get_cell_value(x, y)
                                     == board.get_cell_value(x, y + 1)
                                     == enemyID
                                     and board.get_cell_value(x, y + 2) == 0
-                                #or there is an open space on the left side of the 2 combo horizontal
-                                #by column 
+                                    # or there is an open space on the left side of the 2 combo horizontal
+                                    # by column
                                 ) or (
                                     board.get_cell_value(x, y)
                                     == board.get_cell_value(x, y + 1)
                                     and board.get_cell_value(x, y - 1) == 0
                                 ):
-                                    heuristicValue -=50
-                                    
+                                    heuristicValue -= 50
 
                                 # 3 combo horizontal by column and theres space on the right side
-                                #for enemy
+                                # for enemy
                                 if y < 4:
                                     if (
                                         board.get_cell_value(x, y)
@@ -431,7 +404,7 @@ class StudentAgent(RandomAgent):
                                         == board.get_cell_value(x, y + 2)
                                         == enemyID
                                         and board.get_cell_value(x, y + 3) == 0
-                                    #or 3 combo horizontal by column and space on the left
+                                        # or 3 combo horizontal by column and space on the left
                                     ) or (
                                         board.get_cell_value(x, y)
                                         == board.get_cell_value(x, y + 1)
@@ -440,26 +413,51 @@ class StudentAgent(RandomAgent):
                                         and board.get_cell_value(x, y - 1) == 0
                                     ):
                                         heuristicValue -= 800
-                                    
+
                 except:
                     pass
                 
-                """
-                if currentID == 1:
-                    if x == 3 and y == 5:
-                        if board.get_cell_value(x,y) == 0:
-                            print("ez")
-                            heuristicValue+=900
-                """
-                
+                 # if current player is the second player
+                try:
+                    if currentID == 2:
+                        if x < 5:
+                            
+                            # 2 combo horizontal by column for the enemy and there
+                            # is an open space on the right
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x+1,)
+                                == enemyID
+                                and board.get_cell_value(x+2, y) == 0
+                                # or there is an open space on the left side of the 2 combo horizontal                                    # by column
+                            ) or (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x+1, y )
+                                and board.get_cell_value(x-1, y) == 0
+                            ):
+                                heuristicValue -= 50
+                            # 3 combo horizontal by column and theres space on the right side
+                            # for enemy
+                            if x < 4:
+                                if (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x+1, y)
+                                    == board.get_cell_value(x+2, y)
+                                    == enemyID
+                                    and board.get_cell_value(x+3, y) == 0
+                                    # or 3 combo horizontal by column and space on the left
+                                ) or (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x+1, y)
+                                    == board.get_cell_value(x+2, y)
+                                    == enemyID
+                                    and board.get_cell_value(x-1, y) == 0
+                                ):
+                                    heuristicValue -= 800
+
+                except:
+                    pass
+
+
+
         return heuristicValue
-
-    def alphaBeta(self, board, depth, a, b):
-
-        # terminal state
-        if depth == self.MaxDepth:
-            return self.evaluateBoardState(board)
-
-        valid_moves = board.valid_moves()
-        vals = []
-        moves = []
