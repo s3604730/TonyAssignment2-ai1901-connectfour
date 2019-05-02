@@ -7,6 +7,7 @@ from connectfour.agents.computer_player import MonteCarloAgent, RandomAgent
 from connectfour.agents.agent_student import StudentAgent
 from connectfour.agents.agent import HumanPlayer
 
+
 # from connectfour.agents.agent_hard import HardAgent
 
 

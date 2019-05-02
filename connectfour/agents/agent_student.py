@@ -5,6 +5,9 @@ import random
 class StudentAgent(RandomAgent):
     def __init__(self, name):
         super().__init__(name)
+       
+       
+       
         self.MaxDepth = 3
 
     def get_move(self, board):
@@ -149,8 +152,7 @@ class StudentAgent(RandomAgent):
                         == board.get_cell_value(x, y + 1)
                         == currentID
                     ):
-                        heuristicValue += 11
-                       
+                        heuristicValue += 10
 
                     # 3 combo horizontal by column
                     if y < 5:
@@ -161,7 +163,6 @@ class StudentAgent(RandomAgent):
                             == currentID
                         ):
                             heuristicValue += 50
-                           
 
                         if y < 4:
 
@@ -174,7 +175,6 @@ class StudentAgent(RandomAgent):
                                 == currentID
                             ):
                                 heuristicValue += 5000
-                               
 
                 # 2 combo linear negative diagonal
                 if x < 5:
@@ -216,7 +216,6 @@ class StudentAgent(RandomAgent):
                         == currentID
                     ):
                         heuristicValue += 10
-                        heuristicPositiveDiagonalValue += 10
 
                     # 3 combo linear positive diagonal
                     if x < 6:
@@ -228,7 +227,6 @@ class StudentAgent(RandomAgent):
                                 == currentID
                             ):
                                 heuristicValue += 50
-                                heuristicPositiveDiagonalValue += 50
 
                             # 4 combo linear positive diagonal
                             if y < 4:
@@ -240,9 +238,7 @@ class StudentAgent(RandomAgent):
                                     == currentID
                                 ):
                                     heuristicValue += 5000
-                                    heuristicPositiveDiagonalValue += 5000
 
-               
                 #
                 # Enemy ID HEURISTIC*******************************************
                 # 2 combo vertical by row for us
@@ -373,12 +369,13 @@ class StudentAgent(RandomAgent):
                                 == enemyID
                             ):
                                 heuristicValue -= 5000
-                
+
+                # DEFENSIVE HEURISTIC PLAYER 2*****************
                 # if current player is the second player
                 try:
                     if currentID == 2:
-                        if x < 6:
-                            if y < 5:
+                        if x < 7:
+                            if y < 7:
                                 # 2 combo horizontal by column for the enemy and there
                                 # is an open space on the right
                                 if (
@@ -391,13 +388,14 @@ class StudentAgent(RandomAgent):
                                 ) or (
                                     board.get_cell_value(x, y)
                                     == board.get_cell_value(x, y + 1)
+                                    == enemyID
                                     and board.get_cell_value(x, y - 1) == 0
                                 ):
                                     heuristicValue -= 50
 
                                 # 3 combo horizontal by column and theres space on the right side
                                 # for enemy
-                                if y < 4:
+                                if y < 7:
                                     if (
                                         board.get_cell_value(x, y)
                                         == board.get_cell_value(x, y + 1)
@@ -412,52 +410,472 @@ class StudentAgent(RandomAgent):
                                         == enemyID
                                         and board.get_cell_value(x, y - 1) == 0
                                     ):
-                                        heuristicValue -= 800
+                                        heuristicValue -= 1500
 
                 except:
                     pass
-                
-                 # if current player is the second player
+
+                # if current player is the second player
                 try:
                     if currentID == 2:
-                        if x < 5:
-                            
-                            # 2 combo horizontal by column for the enemy and there
+                        if x < 7:
+
+                            # 2 combo vertical by row for the enemy and there
                             # is an open space on the right
                             if (
                                 board.get_cell_value(x, y)
-                                == board.get_cell_value(x+1,)
+                                == board.get_cell_value(x + 1, y)
                                 == enemyID
-                                and board.get_cell_value(x+2, y) == 0
-                                # or there is an open space on the left side of the 2 combo horizontal                                    # by column
+                                and board.get_cell_value(x + 2, y) == 0
+                                # or there is an open space on the left side of the 2 combo vertical                                   # by column
                             ) or (
                                 board.get_cell_value(x, y)
-                                == board.get_cell_value(x+1, y )
-                                and board.get_cell_value(x-1, y) == 0
+                                == board.get_cell_value(x + 1, y)
+                                == enemyID
+                                and board.get_cell_value(x - 1, y) == 0
                             ):
                                 heuristicValue -= 50
-                            # 3 combo horizontal by column and theres space on the right side
+                            # 3 combo vertical by row and theres space on forward
                             # for enemy
-                            if x < 4:
+                            if x < 7:
                                 if (
                                     board.get_cell_value(x, y)
-                                    == board.get_cell_value(x+1, y)
-                                    == board.get_cell_value(x+2, y)
+                                    == board.get_cell_value(x + 1, y)
+                                    == board.get_cell_value(x + 2, y)
                                     == enemyID
-                                    and board.get_cell_value(x+3, y) == 0
-                                    # or 3 combo horizontal by column and space on the left
+                                    and board.get_cell_value(x + 3, y) == 0
+                                    # or 3 combo horizontal by column and space on backward
                                 ) or (
                                     board.get_cell_value(x, y)
-                                    == board.get_cell_value(x+1, y)
-                                    == board.get_cell_value(x+2, y)
+                                    == board.get_cell_value(x + 1, y)
+                                    == board.get_cell_value(x + 2, y)
                                     == enemyID
-                                    and board.get_cell_value(x-1, y) == 0
+                                    and board.get_cell_value(x - 1, y) == 0
                                 ):
-                                    heuristicValue -= 800
+                                    heuristicValue -= 1500
 
                 except:
                     pass
 
+                # if current player is the second player
+                try:
+                    if currentID == 2:
+                        if x < 7:
 
+                            # 2 combo positive diagonal and space on the right
+                            # is an open space on the right
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 1, y + 1)
+                                == enemyID
+                                and board.get_cell_value(x - 2, y + 2) == 0
+                                # or there is an open space on the left side of the 2 combo diagonal                                  # by column
+                            ) or (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 1, y + 1)
+                                == enemyID
+                                and board.get_cell_value(x + 1, y - 1) == 0
+                            ):
+                                heuristicValue -= 50
+                            # 3 combo postive diagonal and theres space on the right side
+                            #
+                            if x < 7:
+                                if (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x - 1, y + 1)
+                                    == board.get_cell_value(x - 2, y + 2)
+                                    == enemyID
+                                    and board.get_cell_value(x - 3, y + 3) == 0
+                                    # or 3 combo horizontal by column and space on the left
+                                ) or (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x - 1, y+1)
+                                    == board.get_cell_value(x - 2, y+2)
+                                    == enemyID
+                                    and board.get_cell_value(x + 1, y - 1) == 0
+                                ):
+                                    heuristicValue -= 1500
 
+                except:
+                    pass
+                #negative diagonal
+                # if current player is the second player
+                try:
+                    if currentID == 2:
+                        if x < 7:
+
+                            # 2 combo negative diagonal and space on the right
+                            # is an open space on the right
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x + 1, y + 1)
+                                == enemyID
+                                and board.get_cell_value(x + 2, y + 2) == 0
+                                # or there is an open space on the left side of the 2 combo negative diagonal                                  # by column
+                            ) or (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x + 1, y + 1)
+                                == enemyID
+                                and board.get_cell_value(x - 1, y - 1) == 0
+                            ):
+                                heuristicValue -= 50
+                            # 3 combo negative diagonal and theres space on the right side
+                            #
+                            if x < 7:
+                                if (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x + 1, y + 1)
+                                    == board.get_cell_value(x + 2, y + 2)
+                                    == enemyID
+                                    and board.get_cell_value(x + 3, y + 3) == 0
+                                    # or 3 combo horizontal by column and space on the left
+                                ) or (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x + 1, y + 1)
+                                    == board.get_cell_value(x + 2, y + 2)
+                                    == enemyID
+                                    and board.get_cell_value(x - 1, y - 1) == 0
+                                ):
+                                    heuristicValue -= 1200
+
+                except:
+                    pass
+                # if current player is the second player
+                # format 1011 or 1101 negative diagonal
+                try:
+                    if currentID == 2:
+                        if x < 7:
+
+                            # 2 combo negative diagonal and space on the right, open space AND another piece on the right
+                            # 1 1 0 1 format
+
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x + 1, y + 1)
+                                == board.get_cell_value(x + 3, y + 3)
+                                == enemyID
+                                and board.get_cell_value(x + 2, y + 2) == 0
+                                # or by negative diagonal, 1 0 1 1 format
+                            ) or (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x + 2, y + 2)
+                                == board.get_cell_value(x + 3, y + 3)
+                                == enemyID
+                                and board.get_cell_value(x + 1, y + 1) == 0
+                            ):
+                                heuristicValue -= 1200
+                except:
+                    pass
+                # if current player is the second player
+                # format 1011 or 1101 postive diagonal
+                try:
+                    if currentID == 2:
+                        if x < 7:
+
+                            # 2 combo positive diagonal
+                            # 1 1 0 1 format
+
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 1, y + 1)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == enemyID
+                                and board.get_cell_value(x - 2, y + 2) == 0
+                            ) or (
+                                # or by postive diagonal, 1 0 1 1 format
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 2, y + 2)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == enemyID
+                                and board.get_cell_value(x - 1, y + 1) == 0
+                            ):
+                                heuristicValue -= 1200
+                except:
+                    pass
+
+                # if current player is the second player
+                # format 1011 or 1101 horizontal by column
+                try:
+                    if currentID == 2:
+                        if x < 7:
+
+                            # 2 combo Vertical row
+                            # 1 1 0 1 format
+
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 1, y + 1)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == enemyID
+                                and board.get_cell_value(x - 2, y + 2) == 0
+                            ) or (
+                                # or by postive diagonal, 1 0 1 1 format
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 2, y + 2)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == enemyID
+                                and board.get_cell_value(x - 1, y + 1) == 0
+                            ):
+                                heuristicValue -= 1200
+                except:
+                    pass
+                # OFFENSIVE HEURISTIC PLAYER 1
+                #combo horizontal empty space either side
+                # if current player is the first player
+                try:
+                    if currentID == 1 or currentID == 2:
+                        if x < 7:
+                            if y < 7:
+                                # 2 combo horizontal by column for the enemy and there
+                                # is an open space on the right
+                                if (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x, y + 1)
+                                    == currentID
+                                    and board.get_cell_value(x, y + 2) == 0
+                                    # or there is an open space on the left side of the 2 combo horizontal
+                                    # by column
+                                ) or (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x, y + 1)
+                                    == currentID
+                                    and board.get_cell_value(x, y - 1) == 0
+                                ):
+                                    heuristicValue += 50
+
+                                # 3 combo horizontal by column and theres space on the right side
+                                # for enemy
+                                if y < 4:
+                                    if (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x, y + 1)
+                                        == board.get_cell_value(x, y + 2)
+                                        == currentID
+                                        and board.get_cell_value(x, y + 3) == 0
+                                        # or 3 combo horizontal by column and space on the left
+                                    ) or (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x, y + 1)
+                                        == board.get_cell_value(x, y + 2)
+                                        == currentID
+                                        and board.get_cell_value(x, y - 1) == 0
+                                    ):
+                                        heuristicValue += 1200
+
+                except:
+                    pass
+                #combo vertical
+                # if current player is the first player
+                try:
+                    if currentID == 1 or currentID == 2:
+                        if x < 7:
+                            if y < 7:
+                                # 2 combo vertical by row for the enemy and there
+                                # is an open space on the right
+                                if (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x + 1, y)
+                                    == currentID
+                                    and board.get_cell_value(x + 2, y) == 0
+                                    # or there is an open space on the left side of the 2 combo vertical
+                                    # by row
+                                ) or (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x + 1, y)
+                                    == currentID
+                                    and board.get_cell_value(x - 1, y) == 0
+                                ):
+                                    heuristicValue += 50
+
+                                # 3 combo horizontal by column and theres space on the right side
+                                # for enemy
+                                if y < 7:
+                                    if (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x + 1, y)
+                                        == board.get_cell_value(x + 2, y)
+                                        == currentID
+                                        and board.get_cell_value(x + 3, y) == 0
+                                        # or 3 combo horizontal by column and space on the left
+                                    ) or (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x + 1, y)
+                                        == board.get_cell_value(x + 2, y)
+                                        == currentID
+                                        and board.get_cell_value(x - 1, y) == 0
+                                    ):
+                                        heuristicValue += 1200
+
+                except:
+                    pass
+                #combo positive diagonal 
+                # if current player is the first player
+                try:
+                    if currentID == 1 or currentID == 2:
+                        if x < 7:
+                            if y < 7:
+                                # 2 combo postive diagonal
+                                # is an open space on the right
+                                if (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x - 1, y+1)
+                                    == currentID
+                                    and board.get_cell_value(x - 2, y+2) == 0
+                                    # or there is an open space on the left side of the 2 combo postive diagonal
+                                    # by row
+                                ) or (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x - 1, y+1)
+                                    == currentID
+                                    and board.get_cell_value(x + 1, y-1) == 0
+                                ):
+                                    heuristicValue += 50
+
+                                # 3 combo postive diagonal
+                                # f
+                                if y < 7:
+                                    if (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x - 1, y+1)
+                                        == board.get_cell_value(x -2, y+2)
+                                        == currentID
+                                        and board.get_cell_value(x - 3, y+3) == 0
+                                        # or 3 combo horizontal by column and space on the left
+                                    ) or (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x - 1, y+1)
+                                        == board.get_cell_value(x - 2, y+2)
+                                        == currentID
+                                        and board.get_cell_value(x + 1, y-1) == 0
+                                    ):
+                                        heuristicValue += 1200
+
+                except:
+                    pass
+
+                #combo negative diagonal 
+                # if current player is the first player
+                try:
+                    if currentID == 1 or currentID == 2:
+                        if x < 7:
+                            if y < 7:
+                                # 2 combo postive diagonal
+                                # is an open space on the right
+                                if (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x + 1, y+1)
+                                    == currentID
+                                    and board.get_cell_value(x + 2, y+2) == 0
+                                    # or there is an open space on the left side of the 2 combo postive diagonal
+                                    # by row
+                                ) or (
+                                    board.get_cell_value(x, y)
+                                    == board.get_cell_value(x + 1, y+1)
+                                    == currentID
+                                    and board.get_cell_value(x - 1, y-1) == 0
+                                ):
+                                    heuristicValue += 50
+
+                                # 3 combo postive diagonal
+                                # f
+                                if y < 7:
+                                    if (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x + 1, y+1)
+                                        == board.get_cell_value(x +2, y+2)
+                                        == currentID
+                                        and board.get_cell_value(x + 3, y+3) == 0
+                                        # or 3 combo postive diagonal
+                                    ) or (
+                                        board.get_cell_value(x, y)
+                                        == board.get_cell_value(x + 1, y+1)
+                                        == board.get_cell_value(x + 2, y+2)
+                                        == currentID
+                                        and board.get_cell_value(x - 1, y-1) == 0
+                                    ):
+                                        heuristicValue += 1200
+
+                except:
+                    pass
+                # if current player is the first player
+                # format 1011 or 1101 horizontal by column
+                try:
+                    if currentID == 1 or currentID == 2:
+                        if x < 7:
+
+                            # 2 combo Vertical row
+                            # 1 1 0 1 format
+
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 1, y + 1)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == currentID
+                                and board.get_cell_value(x - 2, y + 2) == 0
+                            ) or (
+                                # or by postive diagonal, 1 0 1 1 format
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 2, y + 2)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == currentID
+                                and board.get_cell_value(x - 1, y + 1) == 0
+                            ):
+                                heuristicValue += 1200
+                except:
+                    pass
+            
+                # if current player is the first player
+                # format 1011 or 1101 negative diagonal
+                try:
+                    if currentID == 1 or currentID == 2:
+                        if x < 7:
+
+                            # 2 combo negative diagonal and space on the right, open space AND another piece on the right
+                            # 1 1 0 1 format
+
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x + 1, y + 1)
+                                == board.get_cell_value(x + 3, y + 3)
+                                == currentID
+                                and board.get_cell_value(x + 2, y + 2) == 0
+                                # or by negative diagonal, 1 0 1 1 format
+                            ) or (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x + 2, y + 2)
+                                == board.get_cell_value(x + 3, y + 3)
+                                == currentID
+                                and board.get_cell_value(x + 1, y + 1) == 0
+                            ):
+                                heuristicValue += 1200
+                except:
+                    pass
+                # if current player is the first player
+                # format 1011 or 1101 postive diagonal
+                try:
+                    if currentID == 1 or currentID == 2:
+                        if x < 7:
+
+                            # 2 combo positive diagonal
+                            # 1 1 0 1 format
+
+                            if (
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 1, y + 1)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == currentID
+                                and board.get_cell_value(x - 2, y + 2) == 0
+                            ) or (
+                                # or by postive diagonal, 1 0 1 1 format
+                                board.get_cell_value(x, y)
+                                == board.get_cell_value(x - 2, y + 2)
+                                == board.get_cell_value(x - 3, y + 3)
+                                == currentID
+                                and board.get_cell_value(x - 1, y + 1) == 0
+                            ):
+                                heuristicValue += 1200
+                except:
+                    pass
+
+                
         return heuristicValue
